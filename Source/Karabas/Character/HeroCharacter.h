@@ -30,7 +30,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Animation")
 		UClass *anim_instance_class;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Weapon")
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Weapon")
 		ABaseWeapon* weapon;
 public:
 	AHeroCharacter();
@@ -43,6 +43,12 @@ protected:
 
 	UFUNCTION()
 		void move_right(float val);
+
+	UFUNCTION()
+		void look_up(float val);
+
+	UFUNCTION()
+		void turn(float val);
 
 	UFUNCTION()
 		void attack();

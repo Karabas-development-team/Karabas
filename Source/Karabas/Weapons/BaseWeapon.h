@@ -13,16 +13,16 @@ struct FWeaponData
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, Category = "Ammo")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Ammo")
 		int32 max_ammo;
 
-	UPROPERTY(EditAnywhere, Category = "Config")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Config")
 		float time_between_shots;
 
-	UPROPERTY(EditAnywhere, Category = "Config")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Config")
 		TSubclassOf<class AActor> projectile_type;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Sound")
 		USoundBase *shot_sound;
 };
 
@@ -31,15 +31,14 @@ class KARABAS_API ABaseWeapon : public AActor
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Config")
+		UStaticMeshComponent *weapon_mesh;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Config")
-		FWeaponData weapon_config;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Config")
-		USkeletalMeshComponent *weapon_mesh;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Config")
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Config")
 		UArrowComponent *projectile_spawn_point;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Config")
+		FWeaponData weapon_config;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Attack")
 		bool trigger_pulled;
