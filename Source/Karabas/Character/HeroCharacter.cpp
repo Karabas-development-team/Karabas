@@ -54,9 +54,11 @@ void AHeroCharacter::BeginPlay()
 	}
 	if (weapon_class) {
 		FActorSpawnParameters SpawnInfo;
+		auto transform = GetArrowComponent()->GetComponentTransform();
+		transform.SetLocation(FVector(30, 0, -30));
 		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-		weapon = GetWorld()->SpawnActor<ABaseWeapon>(weapon_class, GetArrowComponent()->GetComponentTransform(), SpawnInfo);
-		weapon->AttachToComponent(GetArrowComponent(), FAttachmentTransformRules::SnapToTargetIncludingScale);
+		weapon = GetWorld()->SpawnActor<ABaseWeapon>(weapon_class, transform, SpawnInfo);
+		weapon->AttachToComponent(hero_camera, FAttachmentTransformRules::KeepRelativeTransform);
 	}
 }
 
