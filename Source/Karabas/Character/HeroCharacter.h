@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/SpringArmComponent.h"
+#include "GameFramework/FloatingPawnMovement.h"
 #include "Camera/CameraComponent.h"
 #include "../Weapons/BaseWeapon.h"
 
@@ -32,6 +33,9 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Weapon")
 		ABaseWeapon* weapon;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Character")
+		UFloatingPawnMovement *movement_component;
 public:
 	AHeroCharacter();
 protected:

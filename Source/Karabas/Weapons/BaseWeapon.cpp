@@ -5,6 +5,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Engine/World.h"
+#include "../Projectiles/BaseProjectile.h"
 
 // Sets default values
 ABaseWeapon::ABaseWeapon()
@@ -36,20 +37,21 @@ void ABaseWeapon::Tick(float DeltaTime)
 
 }
 
-void ABaseWeapon::fire()
+void ABaseWeapon::spawn_proj()
 {
 	FActorSpawnParameters spawn_info;
 	spawn_info.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+	GetWorld()->SpawnActor<ABaseProjectile>(weapon_config.projectile_type, projectile_spawn_point->GetComponentTransform(), spawn_info);
+}
 
+void ABaseWeapon::fire()
+{
 	if (weapon_config.projectile_type) {
-		// todo
-		// GetWorld()->SpawnActor<ABaseProjectile>(weapon_config.projectile_type, projectile_spawn_point->GetComponentTransform(), spawn_info);
+		spawn_proj();
+		if (weapon_config.shot_sound) {
+			UGameplayStatics::SpawnSoundAttached(weapon_config.shot_sound, projectile_spawn_point);
+		}
 	}
-
-	if (weapon_config.shot_sound) {
-		UGameplayStatics::SpawnSoundAttached(weapon_config.shot_sound, projectile_spawn_point);
-	}
-	UE_LOG(LogTemp, Warning, TEXT("fire"));
 }
 
 void ABaseWeapon::pull_trigger()

@@ -63,6 +63,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION()
+		virtual void spawn_proj();
+
+	UFUNCTION()
 		void fire();
 
 	UFUNCTION(BlueprintCallable)

@@ -3,16 +3,28 @@
 #pragma once
 
 #include "../Interfaces/Damageable.h"
+#include "Components/SkeletalMeshComponent.h"
+#include "Components/ArrowComponent.h"
+#include "Components/SceneComponent.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "BaseCharacter.generated.h"
 
 UCLASS()
-class KARABAS_API ABaseCharacter : public ACharacter, public IDamageable
+class KARABAS_API ABaseCharacter : public APawn, public IDamageable
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Character")
+		USceneComponent *scene_root;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Character")
+		UArrowComponent *arrow_component;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Character")
+		USkeletalMeshComponent *mesh_component;
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "BaseCharacter")
 		float health = 100;
 

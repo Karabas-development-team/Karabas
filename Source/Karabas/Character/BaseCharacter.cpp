@@ -11,10 +11,17 @@ ABaseCharacter::ABaseCharacter()
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
-	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Pawn"));
+	scene_root = CreateDefaultSubobject<USceneComponent>(TEXT("scene_root"));
+	RootComponent = scene_root;
 
-	GetCapsuleComponent()->BodyInstance.SetResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
-	this->SetActorTickInterval(0.008);
+	mesh_component = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("SkeletalMeshComponent"));
+	mesh_component->BodyInstance.SetResponseToChannel(ECC_WorldDynamic, ECR_Overlap);
+	mesh_component->SetupAttachment(RootComponent);
+
+	arrow_component = CreateDefaultSubobject<UArrowComponent>(TEXT("Direction"));
+	arrow_component->SetupAttachment(RootComponent);
+
+	//this->SetActorTickInterval(0.008);
 }
 
 // Called when the game starts or when spawned
@@ -28,7 +35,6 @@ void ABaseCharacter::BeginPlay()
 void ABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 // Called to bind functionality to input
