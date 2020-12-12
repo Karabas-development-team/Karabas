@@ -103,15 +103,15 @@ void ABaseProjectile::spawn_particles(const FHitResult &sweep_result)
 
 void ABaseProjectile::spawn_mark(const FHitResult &sweep_result)
 {
-	if (decal_material) {
-		ADecalActor *decal = GetWorld()->SpawnActor<ADecalActor>(sweep_result.Location, FRotator());
+	if (decal_material && !sweep_result.GetActor()->ActorHasTag(FName("Enemy"))) {
+		ADecalActor *decal = GetWorld()->SpawnActor<ADecalActor>(sweep_result.Location - sweep_result.GetComponent()->GetComponentLocation(), FRotator());
 		if (decal)
 		{
 			decal->SetActorRotation(UKismetMathLibrary::MakeRotFromX(sweep_result.Normal));
 			decal->SetDecalMaterial(decal_material);
 			decal->SetLifeSpan(2.0f);
 			decal->GetDecal()->DecalSize = FVector(10, 10, 10);
-			decal->AttachToComponent(sweep_result.GetComponent(), FAttachmentTransformRules::KeepWorldTransform);
+			decal->AttachToComponent(sweep_result.GetComponent(), FAttachmentTransformRules::KeepRelativeTransform);
 		}
 	}
 }
