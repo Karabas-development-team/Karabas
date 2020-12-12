@@ -4,10 +4,11 @@
 #include "EnemyCharacter.h"
 
 #include "HeroCharacter.h"
+#include "Engine/World.h"
+#include "GameFramework/GameModeBase.h"
 #include "UObject/ConstructorHelpers.h"
 #include "GameFramework/Character.h"
 #include "Components/CapsuleComponent.h"
-#include "Kismet/GameplayStatics.h"
 #include "Runtime/Core/Public/Misc/OutputDevice.h"
 #include "Runtime/Core/Public/Misc/OutputDeviceNull.h"
 
@@ -46,10 +47,9 @@ void AEnemyCharacter::on_see_pawn(APawn *other_pawn) {
 
 void AEnemyCharacter::death() {
 	//Destroy();
-	UE_LOG(LogTemp, Warning, TEXT("death"));
 	FOutputDeviceNull ar;
-	const FString command = FString::Printf(TEXT("ShowAchievement %i"), score);
-	UGameplayStatics::GetPlayerController(GetWorld(), 0)->CallFunctionByNameWithArguments(*command, ar, NULL, true);
+	const FString command = FString::Printf(TEXT("add_score %i"), score);
+	GetWorld()->GetAuthGameMode()->CallFunctionByNameWithArguments(*command, ar, NULL, true);
 }
 
 void AEnemyCharacter::affect_health_Implementation(float delta) {
