@@ -13,8 +13,11 @@ ABaseWeapon::ABaseWeapon()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
+	scene_root = CreateDefaultSubobject<USceneComponent>(TEXT("scene_root"));
+	RootComponent = scene_root;
+
 	weapon_mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponMesh"));
-	RootComponent = weapon_mesh;
+	weapon_mesh->SetupAttachment(scene_root);
 
 	projectile_spawn_point = CreateDefaultSubobject<UArrowComponent>(TEXT("ProjectileSpawnPoint"));
 	projectile_spawn_point->SetupAttachment(weapon_mesh);
@@ -41,7 +44,9 @@ void ABaseWeapon::spawn_proj()
 {
 	FActorSpawnParameters spawn_info;
 	spawn_info.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	GetWorld()->SpawnActor<ABaseProjectile>(weapon_config.projectile_type, projectile_spawn_point->GetComponentTransform(), spawn_info);
+	FTransform transform = projectile_spawn_point->GetComponentTransform();
+	transform.SetScale3D(FVector(1, 1, 1));
+	GetWorld()->SpawnActor<ABaseProjectile>(weapon_config.projectile_type, transform, spawn_info);
 }
 
 void ABaseWeapon::fire()

@@ -61,6 +61,7 @@ void AHeroCharacter::BeginPlay()
 		transform.SetLocation(FVector(30, 0, -30));
 		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		weapon = GetWorld()->SpawnActor<ABaseWeapon>(weapon_class, transform, SpawnInfo);
+		weapon->weapon_mesh->AttachToComponent(hero_camera, FAttachmentTransformRules::KeepRelativeTransform);
 		weapon->AttachToComponent(hero_camera, FAttachmentTransformRules::KeepRelativeTransform);
 	}
 }

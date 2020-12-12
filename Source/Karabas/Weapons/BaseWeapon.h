@@ -31,6 +31,9 @@ class KARABAS_API ABaseWeapon : public AActor
 {
 	GENERATED_BODY()
 public:
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Character")
+		USceneComponent *scene_root;
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Config")
 		UStaticMeshComponent *weapon_mesh;
 
