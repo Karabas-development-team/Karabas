@@ -35,6 +35,10 @@ void AEnemyCharacter::BeginPlay() {
 	if (anim_instance_class) {
 		mesh_component->SetAnimInstanceClass(anim_instance_class);
 	}
+
+	dynamic_material = UMaterialInstanceDynamic::Create(mesh_component->GetMaterial(0), mesh_component);
+	dynamic_material->SetVectorParameterValue("BodyColor", enemy_color);
+	mesh_component->SetMaterial(0, dynamic_material);
 }
 
 void AEnemyCharacter::on_see_pawn(APawn *other_pawn) {
