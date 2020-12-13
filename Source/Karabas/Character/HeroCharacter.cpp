@@ -28,9 +28,6 @@ AHeroCharacter::AHeroCharacter()
 	hero_camera->SetRelativeRotation(FRotator(90, 0, 0));
 	hero_camera->bUsePawnControlRotation = true;
 
-	movement_component = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("MovementComponent"));
-	movement_component->MaxSpeed = 900;
-
 	/*static ConstructorHelpers::FObjectFinder<UClass>FoundWeapon(TEXT("BlueprintGeneratedClass'/Game/Weapons/MyBaseWeapon.MyBaseWeapon_C'"));
 	if (FoundWeapon.Succeeded())
 	{
@@ -44,20 +41,15 @@ AHeroCharacter::AHeroCharacter()
 	}*/
 
 	this->Tags.Add(FName("Player"));
-
-
 }
 
 void AHeroCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (anim_instance_class) {
-		mesh_component->SetAnimInstanceClass(anim_instance_class);
-	}
 	if (weapon_class) {
 		FActorSpawnParameters SpawnInfo;
-		auto transform = arrow_component->GetComponentTransform();
+		auto transform = GetArrowComponent()->GetComponentTransform();
 		transform.SetLocation(FVector(30, 0, -30));
 		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		weapon = GetWorld()->SpawnActor<ABaseWeapon>(weapon_class, transform, SpawnInfo);
@@ -68,32 +60,22 @@ void AHeroCharacter::BeginPlay()
 
 void AHeroCharacter::move_up(float val)
 {
-	if (!is_dead) {
-		FVector hero_camera_forvard_vector = hero_camera->GetForwardVector();
-		FVector desired_movement_direction = FVector(hero_camera_forvard_vector.X, hero_camera_forvard_vector.Y, 0.0f);
-		desired_movement_direction.Normalize();
-		AddMovementInput(desired_movement_direction, val);
-	}
+	AddMovementInput(GetActorForwardVector(), val);
 }
 
 void AHeroCharacter::move_right(float val)
 {
-	if (!is_dead) {
-		FVector hero_camera_forvard_vector = hero_camera->GetRightVector();
-		FVector desired_movement_direction = FVector(hero_camera_forvard_vector.X, hero_camera_forvard_vector.Y, 0.0f);
-		desired_movement_direction.Normalize();
-		AddMovementInput(desired_movement_direction, val);
-	}
+	AddMovementInput(GetActorRightVector(), val);
 }
 
 void AHeroCharacter::look_up(float val)
 {
-	if (!is_dead) AddControllerPitchInput(val);
+	AddControllerPitchInput(val);
 }
 
 void AHeroCharacter::turn(float val)
 {
-	if (!is_dead) AddControllerYawInput(val);
+	AddControllerYawInput(val);
 }
 
 void AHeroCharacter::attack()
@@ -119,10 +101,4 @@ void AHeroCharacter::SetupPlayerInputComponent(UInputComponent *PlayerInputCompo
 	PlayerInputComponent->BindAxis("Turn", this, &AHeroCharacter::turn);
 
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AHeroCharacter::attack);
-}
-
-void AHeroCharacter::affect_health_Implementation(float Delta)
-{
-	calculate_health(Delta);
-	//todo
 }

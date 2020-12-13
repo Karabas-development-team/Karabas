@@ -73,7 +73,7 @@ void ABaseProjectile::on_overlap_begin(UPrimitiveComponent *OverlappedComp,
 	const FHitResult &SweepResult)
 {
 
-	spawn_mark(SweepResult);
+	//spawn_mark(SweepResult);
 	spawn_particles(SweepResult);
 
 	if (hit_sound) {
