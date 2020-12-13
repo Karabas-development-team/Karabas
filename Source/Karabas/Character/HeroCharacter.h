@@ -5,6 +5,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/FloatingPawnMovement.h"
 #include "Camera/CameraComponent.h"
+#include "Components/ArrowComponent.h"
 #include "../Weapons/BaseWeapon.h"
 
 #include "CoreMinimal.h"
@@ -15,7 +16,7 @@
  * 
  */
 UCLASS()
-class KARABAS_API AHeroCharacter : public ABaseCharacter
+class KARABAS_API AHeroCharacter : public ACharacter
 {
 	GENERATED_BODY()
 public:
@@ -33,9 +34,6 @@ public:
 
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Weapon")
 		ABaseWeapon* weapon;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Character")
-		UFloatingPawnMovement *movement_component;
 public:
 	AHeroCharacter();
 protected:
@@ -62,7 +60,4 @@ public:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	//IDamageable
-	void affect_health_Implementation(float Delta) override;
 };

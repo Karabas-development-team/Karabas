@@ -29,6 +29,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Material")
 		UMaterialInstanceDynamic* dynamic_material;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Material")
+		FLinearColor enemy_color;
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "AI")
 		bool enemy_is_seen;
 
