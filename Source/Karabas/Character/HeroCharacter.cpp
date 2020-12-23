@@ -49,7 +49,7 @@ void AHeroCharacter::BeginPlay()
 
 	if (weapon_class) {
 		FActorSpawnParameters SpawnInfo;
-		auto transform = GetArrowComponent()->GetComponentTransform();
+		auto transform = GetTransform();
 		transform.SetLocation(FVector(30, 0, -30));
 		SpawnInfo.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 		weapon = GetWorld()->SpawnActor<ABaseWeapon>(weapon_class, transform, SpawnInfo);
